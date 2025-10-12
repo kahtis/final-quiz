@@ -6,6 +6,8 @@
     <title>QuizMaster - RTOS Interactive Quiz Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
         
@@ -210,54 +212,16 @@
             background-color: #ef4444;
         }
 
-        .players-grid-large {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 0.75rem;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .player-card-small {
-            padding: 0.75rem;
-            font-size: 0.875rem;
-        }
-
-        .player-card-small h4 {
-            font-size: 0.875rem;
-        }
-
-        .player-card-small .text-sm {
-            font-size: 0.75rem;
-        }
-
-        .player-card-small .text-xs {
-            font-size: 0.625rem;
-        }
-
-        .leaderboard-table {
-            font-size: 0.875rem;
-        }
-
-        .leaderboard-table th,
-        .leaderboard-table td {
-            padding: 0.5rem;
-        }
-
-        .category-badge {
+        .quiz-category {
             display: inline-block;
-            padding: 0.25rem 0.5rem;
+            background-color: #8b5cf6;
+            color: white;
+            padding: 0.25rem 0.75rem;
             border-radius: 9999px;
             font-size: 0.75rem;
             font-weight: 600;
-            margin-right: 0.25rem;
+            margin-bottom: 0.5rem;
         }
-
-        .category-1 { background-color: #ef4444; color: white; }
-        .category-2 { background-color: #f59e0b; color: white; }
-        .category-3 { background-color: #10b981; color: white; }
-        .category-4 { background-color: #3b82f6; color: white; }
-        .category-5 { background-color: #8b5cf6; color: white; }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -273,13 +237,13 @@
     <header class="gradient-bg text-white shadow-lg">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <i class="fas fa-brain text-3xl"></i>
-                <h1 class="text-2xl font-bold">QuizMaster RTOS</h1>
+                <i class="fas fa-microchip text-3xl"></i>
+                <h1 class="text-2xl font-bold">RTOS QuizMaster</h1>
             </div>
             <div class="flex items-center space-x-4">
                 <span class="text-sm bg-white/20 px-3 py-1 rounded-full">
                     <i class="fas fa-users mr-1"></i>
-                    <span id="headerPlayerCount">0</span> / 70 Players
+                    <span id="headerPlayerCount">0</span> Players
                 </span>
                 <button id="viewToggle" class="bg-white text-purple-600 px-4 py-2 rounded-lg font-medium hover:bg-gray-100 transition">
                     <i class="fas fa-exchange-alt mr-2"></i>Switch View
@@ -297,7 +261,7 @@
                 <div class="text-center mb-8">
                     <i class="fas fa-gamepad text-6xl text-purple-600 mb-4"></i>
                     <h2 class="text-3xl font-bold text-gray-800 mb-2">Join RTOS Quiz</h2>
-                    <p class="text-gray-600">Enter the 6-digit code to join the quiz</p>
+                    <p class="text-gray-600">Test your knowledge of Real-Time Operating Systems</p>
                     <div id="autoJoinMessage" class="hidden mt-4 p-3 bg-green-100 text-green-700 rounded-lg">
                         <i class="fas fa-check-circle mr-2"></i>
                         Quiz code detected! Just enter your name to join.
@@ -369,9 +333,7 @@
 
                 <!-- Question Card -->
                 <div id="questionCard" class="bg-white rounded-xl card-shadow p-8 fade-in">
-                    <div class="mb-4">
-                        <span class="category-badge category-1" id="questionCategory">Category</span>
-                    </div>
+                    <div class="quiz-category" id="questionCategory">Category</div>
                     <h3 class="text-2xl font-bold text-gray-800 mb-6" id="questionText">Waiting for quiz to start...</h3>
                     <div id="answersContainer" class="space-y-3">
                         <!-- Answers will be dynamically inserted here -->
@@ -388,7 +350,7 @@
                     <div class="mb-6">
                         <p class="text-gray-600 mb-2">Your Final Score</p>
                         <p class="text-5xl font-bold text-purple-600" id="finalScore">0</p>
-                        <p class="text-gray-500 mt-2">out of <span id="maxScore">200</span> points</p>
+                        <p class="text-gray-500 mt-2">out of <span id="maxScore">100</span> points</p>
                     </div>
                     <div id="performanceMessage" class="mb-6 p-4 rounded-lg bg-purple-50">
                         <p class="text-purple-800 font-medium">Great job! You've completed the RTOS quiz.</p>
@@ -569,7 +531,7 @@
                             Last updated: <span id="lastUpdated">Never</span>
                         </div>
                     </div>
-                    <div id="playersGrid" class="players-grid-large">
+                    <div id="playersGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                         <!-- Player cards will be dynamically inserted here -->
                     </div>
                     <div id="noPlayersMessage" class="text-center py-8 text-gray-500">
@@ -584,7 +546,7 @@
                         <i class="fas fa-chart-line mr-2"></i>Live Leaderboard
                     </h3>
                     <div class="overflow-x-auto">
-                        <table class="w-full leaderboard-table">
+                        <table class="w-full">
                             <thead>
                                 <tr class="bg-gray-100">
                                     <th class="px-4 py-2 text-left text-gray-700">Rank</th>
@@ -634,8 +596,7 @@
     </div>
 
     <script>
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+       // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyADRYR0C3NfL_YNCaIKSROFJmlu3p_igsY",
   authDomain: "hiiw45r.firebaseapp.com",
@@ -645,19 +606,18 @@ const firebaseConfig = {
   appId: "1:237209759293:web:de5999d1b29cbd646a8454",
   measurementId: "G-109HVCF0CQ"
 };
-
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // RTOS Quiz Data
+        // Quiz Data - RTOS Questions
         const quizData = {
             code: 'RTOS20',
             questions: [
-                // Questions 1-5: Foreground/Background Systems & Context Switching
+                // 1-5: Foreground/Background Systems & Context Switching
                 {
                     id: 1,
-                    category: 1,
+                    category: "Foreground/Background Systems",
                     question: "What is a foreground/background system in RTOS?",
                     answers: [
                         "Foreground runs tasks continuously, background handles interrupts",
@@ -669,7 +629,7 @@ const firebaseConfig = {
                 },
                 {
                     id: 2,
-                    category: 1,
+                    category: "Foreground/Background Systems",
                     question: "What is context switching in RTOS?",
                     answers: [
                         "Switching CPU from one task to another",
@@ -681,7 +641,7 @@ const firebaseConfig = {
                 },
                 {
                     id: 3,
-                    category: 1,
+                    category: "Foreground/Background Systems",
                     question: "Difference between non-preemptive and preemptive kernels:",
                     answers: [
                         "Non-preemptive: task runs until completion; Preemptive: scheduler can interrupt",
@@ -693,7 +653,7 @@ const firebaseConfig = {
                 },
                 {
                     id: 4,
-                    category: 1,
+                    category: "Foreground/Background Systems",
                     question: "Why is context switching important?",
                     answers: [
                         "To allow multitasking and efficient CPU utilization",
@@ -705,7 +665,7 @@ const firebaseConfig = {
                 },
                 {
                     id: 5,
-                    category: 1,
+                    category: "Foreground/Background Systems",
                     question: "Which kernel type allows higher priority tasks to run immediately?",
                     answers: [
                         "Non-preemptive",
@@ -715,11 +675,10 @@ const firebaseConfig = {
                     ],
                     correctAnswer: 1
                 },
-                
-                // Questions 6-10: Scheduling & Task Priorities
+                // 6-10: Scheduling & Task Priorities
                 {
                     id: 6,
-                    category: 2,
+                    category: "Scheduling & Task Priorities",
                     question: "What is a scheduler in RTOS?",
                     answers: [
                         "Determines the order in which tasks run",
@@ -731,7 +690,7 @@ const firebaseConfig = {
                 },
                 {
                     id: 7,
-                    category: 2,
+                    category: "Scheduling & Task Priorities",
                     question: "What is scheduling re-entrancy?",
                     answers: [
                         "Scheduler can be called again safely during execution",
@@ -743,7 +702,7 @@ const firebaseConfig = {
                 },
                 {
                     id: 8,
-                    category: 2,
+                    category: "Scheduling & Task Priorities",
                     question: "Define priority inversion.",
                     answers: [
                         "Lower priority task blocks higher priority task",
@@ -755,7 +714,7 @@ const firebaseConfig = {
                 },
                 {
                     id: 9,
-                    category: 2,
+                    category: "Scheduling & Task Priorities",
                     question: "How do you assign task priorities?",
                     answers: [
                         "Based on importance and deadlines",
@@ -767,7 +726,7 @@ const firebaseConfig = {
                 },
                 {
                     id: 10,
-                    category: 2,
+                    category: "Scheduling & Task Priorities",
                     question: "What is priority inheritance?",
                     answers: [
                         "Temporarily raising low-priority task priority to avoid inversion",
@@ -777,11 +736,10 @@ const firebaseConfig = {
                     ],
                     correctAnswer: 0
                 },
-                
-                // Questions 11-15: Mutual Exclusion & Synchronization
+                // 11-15: Mutual Exclusion & Synchronization
                 {
                     id: 11,
-                    category: 3,
+                    category: "Mutual Exclusion & Synchronization",
                     question: "What is mutual exclusion in RTOS?",
                     answers: [
                         "Ensuring only one task accesses shared resource at a time",
@@ -793,7 +751,7 @@ const firebaseConfig = {
                 },
                 {
                     id: 12,
-                    category: 3,
+                    category: "Mutual Exclusion & Synchronization",
                     question: "What are semaphores used for?",
                     answers: [
                         "Managing mutual exclusion and signaling",
@@ -805,7 +763,7 @@ const firebaseConfig = {
                 },
                 {
                     id: 13,
-                    category: 3,
+                    category: "Mutual Exclusion & Synchronization",
                     question: "Define deadlock in multitasking systems.",
                     answers: [
                         "Tasks waiting indefinitely for resources",
@@ -817,7 +775,7 @@ const firebaseConfig = {
                 },
                 {
                     id: 14,
-                    category: 3,
+                    category: "Mutual Exclusion & Synchronization",
                     question: "What is an event flag in RTOS?",
                     answers: [
                         "Synchronization primitive used for signaling between tasks",
@@ -829,7 +787,7 @@ const firebaseConfig = {
                 },
                 {
                     id: 15,
-                    category: 3,
+                    category: "Mutual Exclusion & Synchronization",
                     question: "Which technique ensures tasks execute in order and do not collide?",
                     answers: [
                         "Synchronization",
@@ -839,11 +797,10 @@ const firebaseConfig = {
                     ],
                     correctAnswer: 0
                 },
-                
-                // Questions 16-20: Inter-Task Communication & Timing
+                // 16-20: Inter-Task Communication & Timing
                 {
                     id: 16,
-                    category: 4,
+                    category: "Inter-Task Communication & Timing",
                     question: "What are message mailboxes used for?",
                     answers: [
                         "Sending messages between tasks",
@@ -855,7 +812,7 @@ const firebaseConfig = {
                 },
                 {
                     id: 17,
-                    category: 4,
+                    category: "Inter-Task Communication & Timing",
                     question: "Difference between message queues and mailboxes:",
                     answers: [
                         "Queues can hold multiple messages; mailbox holds only one",
@@ -867,7 +824,7 @@ const firebaseConfig = {
                 },
                 {
                     id: 18,
-                    category: 4,
+                    category: "Inter-Task Communication & Timing",
                     question: "What role do interrupts play in RTOS?",
                     answers: [
                         "Allow tasks to respond immediately to external events",
@@ -879,7 +836,7 @@ const firebaseConfig = {
                 },
                 {
                     id: 19,
-                    category: 4,
+                    category: "Inter-Task Communication & Timing",
                     question: "What is a clock tick in RTOS?",
                     answers: [
                         "Periodic timer interrupt used for task scheduling",
@@ -891,7 +848,7 @@ const firebaseConfig = {
                 },
                 {
                     id: 20,
-                    category: 4,
+                    category: "Inter-Task Communication & Timing",
                     question: "Why is memory requirement analysis important in RTOS?",
                     answers: [
                         "To ensure sufficient space for tasks, stacks, and buffers",
@@ -1344,49 +1301,40 @@ const firebaseConfig = {
                     return;
                 }
                 
-                // Check if we've reached the player limit
-                database.ref('players').once('value', (snapshot) => {
-                    const players = snapshot.val() || {};
-                    if (Object.keys(players).length >= 70) {
-                        showNotification('Quiz is full! Maximum 70 players allowed.', 'error');
-                        return;
+                // Create new player
+                const playerId = database.ref('players').push().key;
+                playerState = {
+                    id: playerId,
+                    name: name,
+                    score: 0,
+                    currentQuestion: 0,
+                    answers: [],
+                    selectedAnswer: null,
+                    hasJoined: true,
+                    joinedAt: new Date().toISOString(),
+                    status: 'joined'
+                };
+                
+                // Save player to Firebase
+                database.ref('players/' + playerId).set(playerState);
+                
+                // Update UI
+                document.getElementById('playerDisplayName').textContent = name;
+                document.getElementById('adminQuizCode').textContent = quizData.code;
+                
+                // Show quiz screen
+                joinScreen.classList.add('hidden');
+                quizScreen.classList.remove('hidden');
+                
+                showNotification(`Welcome ${name}!`, 'success');
+                
+                // Listen for this player's updates
+                database.ref('players/' + playerId).on('value', (snapshot) => {
+                    const updatedPlayer = snapshot.val();
+                    if (updatedPlayer) {
+                        playerState = { ...playerState, ...updatedPlayer };
+                        updatePlayerUI();
                     }
-                    
-                    // Create new player
-                    const playerId = database.ref('players').push().key;
-                    playerState = {
-                        id: playerId,
-                        name: name,
-                        score: 0,
-                        currentQuestion: 0,
-                        answers: [],
-                        selectedAnswer: null,
-                        hasJoined: true,
-                        joinedAt: new Date().toISOString(),
-                        status: 'joined'
-                    };
-                    
-                    // Save player to Firebase
-                    database.ref('players/' + playerId).set(playerState);
-                    
-                    // Update UI
-                    document.getElementById('playerDisplayName').textContent = name;
-                    document.getElementById('adminQuizCode').textContent = quizData.code;
-                    
-                    // Show quiz screen
-                    joinScreen.classList.add('hidden');
-                    quizScreen.classList.remove('hidden');
-                    
-                    showNotification(`Welcome ${name}!`, 'success');
-                    
-                    // Listen for this player's updates
-                    database.ref('players/' + playerId).on('value', (snapshot) => {
-                        const updatedPlayer = snapshot.val();
-                        if (updatedPlayer) {
-                            playerState = { ...playerState, ...updatedPlayer };
-                            updatePlayerUI();
-                        }
-                    });
                 });
             });
         }
@@ -1519,17 +1467,10 @@ const firebaseConfig = {
             
             // Update UI
             document.getElementById('questionText').textContent = question.question;
+            document.getElementById('questionCategory').textContent = question.category;
             document.getElementById('currentQuestion').textContent = gameState.currentQuestionData.questionIndex + 1;
             document.getElementById('totalQuestions').textContent = quizData.questions.length;
             document.getElementById('progressBar').style.width = `${((gameState.currentQuestionData.questionIndex + 1) / quizData.questions.length) * 100}%`;
-            
-            // Update category badge
-            const categoryBadge = document.getElementById('questionCategory');
-            const categoryColors = ['category-1', 'category-2', 'category-3', 'category-4', 'category-5'];
-            categoryBadge.className = `category-badge ${categoryColors[question.category - 1]}`;
-            
-            const categoryNames = ['Systems', 'Scheduling', 'Synchronization', 'Communication', 'Timing'];
-            categoryBadge.textContent = categoryNames[question.category - 1];
             
             // Load answers
             const answersContainer = document.getElementById('answersContainer');
@@ -1579,7 +1520,7 @@ const firebaseConfig = {
             
             // Update score
             if (isCorrect) {
-                playerState.score += 10;
+                playerState.score += 5;
                 database.ref('players/' + playerState.id).update({
                     score: playerState.score
                 });
@@ -1668,19 +1609,19 @@ const firebaseConfig = {
             resultsScreen.classList.remove('hidden');
             
             document.getElementById('finalScore').textContent = playerState.score;
-            document.getElementById('maxScore').textContent = quizData.questions.length * 10;
+            document.getElementById('maxScore').textContent = quizData.questions.length * 5;
             
             // Performance message
-            const percentage = (playerState.score / (quizData.questions.length * 10)) * 100;
+            const percentage = (playerState.score / (quizData.questions.length * 5)) * 100;
             let message = '';
             if (percentage >= 80) {
                 message = 'Excellent work! You\'re an RTOS expert!';
             } else if (percentage >= 60) {
-                message = 'Good job! You did well!';
+                message = 'Good job! You have solid RTOS knowledge!';
             } else if (percentage >= 40) {
-                message = 'Not bad! Keep practicing!';
+                message = 'Not bad! Keep learning about RTOS!';
             } else {
-                message = 'Better luck next time!';
+                message = 'Better luck next time! Study more about RTOS concepts.';
             }
             document.getElementById('performanceMessage').innerHTML = `<p class="text-purple-800 font-medium">${message}</p>`;
         }
@@ -1721,7 +1662,7 @@ const firebaseConfig = {
         }
 
         function updatePlayerCount(count) {
-            document.getElementById('headerPlayerCount').textContent = `${count} / 70`;
+            document.getElementById('headerPlayerCount').textContent = count;
             document.getElementById('activePlayersCount').textContent = count;
         }
 
@@ -1749,7 +1690,7 @@ const firebaseConfig = {
                     
                     Object.values(players).forEach((player, index) => {
                         const playerCard = document.createElement('div');
-                        playerCard.className = 'player-card player-joined bg-white border border-gray-200 rounded-lg p-4 relative player-card-small';
+                        playerCard.className = 'player-card player-joined bg-white border border-gray-200 rounded-lg p-4 relative';
                         
                         let statusColor = 'bg-gray-100 text-gray-600';
                         let statusIcon = 'fa-user';
@@ -1763,7 +1704,7 @@ const firebaseConfig = {
                         
                         playerCard.innerHTML = `
                             <div class="flex items-center justify-between mb-2">
-                                <h4 class="font-semibold text-gray-800 pr-8">${player.name}</h4>
+                                <h4 class="font-semibold text-gray-800">${player.name}</h4>
                                 <span class="px-2 py-1 rounded-full text-xs font-medium ${statusColor}">
                                     <i class="fas ${statusIcon} mr-1"></i>${player.status}
                                 </span>
