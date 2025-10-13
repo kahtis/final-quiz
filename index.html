@@ -1450,15 +1450,45 @@ const firebaseConfig = {
             
             const question = quizData.questions[questionIndex];
             
+            // Shuffle answers and track the correct answer position
+            const shuffledQuestion = shuffleAnswers(question);
+            
             // Update current question in Firebase
             database.ref('currentQuestion').set({
                 questionIndex: questionIndex,
-                question: question,
+                question: shuffledQuestion,
                 startTime: new Date().toISOString()
             });
             
             // Start timer
             startTimer();
+        }
+
+        // Function to shuffle answer options
+        function shuffleAnswers(question) {
+            // Create a copy of the question to avoid modifying the original
+            const shuffledQuestion = { ...question };
+            
+            // Create an array of answer indices
+            const indices = [0, 1, 2, 3];
+            
+            // Shuffle the indices using Fisher-Yates algorithm
+            for (let i = indices.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [indices[i], indices[j]] = [indices[j], indices[i]];
+            }
+            
+            // Create a new answers array based on the shuffled indices
+            const shuffledAnswers = indices.map(i => question.answers[i]);
+            
+            // Find the new position of the correct answer
+            const newCorrectAnswer = indices.indexOf(question.correctAnswer);
+            
+            // Update the question with shuffled answers and new correct answer position
+            shuffledQuestion.answers = shuffledAnswers;
+            shuffledQuestion.correctAnswer = newCorrectAnswer;
+            
+            return shuffledQuestion;
         }
 
         function loadQuestion() {
