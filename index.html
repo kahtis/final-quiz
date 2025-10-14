@@ -611,256 +611,257 @@ const firebaseConfig = {
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Quiz Data - RTOS Questions
-        const quizData = {
-            code: 'RTOS20',
-            questions: [
-                // 1-5: Foreground/Background Systems & Context Switching
-                {
-                    id: 1,
-                    category: "Foreground/Background Systems",
-                    question: "What is a foreground/background system in RTOS?",
-                    answers: [
-                        "Foreground runs tasks continuously, background handles interrupts",
-                        "Foreground is slow, background is fast",
-                        "Both run simultaneously without priorities",
-                        "Only background can access memory"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    id: 2,
-                    category: "Foreground/Background Systems",
-                    question: "What is context switching in RTOS?",
-                    answers: [
-                        "Switching CPU from one task to another",
-                        "Switching power supply",
-                        "Changing memory type",
-                        "Updating firmware"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    id: 3,
-                    category: "Foreground/Background Systems",
-                    question: "Difference between non-preemptive and preemptive kernels:",
-                    answers: [
-                        "Non-preemptive: task runs until completion; Preemptive: scheduler can interrupt",
-                        "Preemptive never interrupts",
-                        "Non-preemptive uses multiple CPUs",
-                        "Both are identical"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    id: 4,
-                    category: "Foreground/Background Systems",
-                    question: "Why is context switching important?",
-                    answers: [
-                        "To allow multitasking and efficient CPU utilization",
-                        "To save memory",
-                        "To increase task length",
-                        "To reduce interrupts"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    id: 5,
-                    category: "Foreground/Background Systems",
-                    question: "Which kernel type allows higher priority tasks to run immediately?",
-                    answers: [
-                        "Non-preemptive",
-                        "Preemptive",
-                        "Both",
-                        "None"
-                    ],
-                    correctAnswer: 1
-                },
-                // 6-10: Scheduling & Task Priorities
-                {
-                    id: 6,
-                    category: "Scheduling & Task Priorities",
-                    question: "What is a scheduler in RTOS?",
-                    answers: [
-                        "Determines the order in which tasks run",
-                        "Increases memory",
-                        "Manages power supply",
-                        "Handles only interrupts"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    id: 7,
-                    category: "Scheduling & Task Priorities",
-                    question: "What is scheduling re-entrancy?",
-                    answers: [
-                        "Scheduler can be called again safely during execution",
-                        "Scheduler never runs twice",
-                        "Scheduler uses interrupts",
-                        "None of the above"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    id: 8,
-                    category: "Scheduling & Task Priorities",
-                    question: "Define priority inversion.",
-                    answers: [
-                        "Lower priority task blocks higher priority task",
-                        "High priority tasks always preempt",
-                        "Tasks execute randomly",
-                        "Scheduler stops"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    id: 9,
-                    category: "Scheduling & Task Priorities",
-                    question: "How do you assign task priorities?",
-                    answers: [
-                        "Based on importance and deadlines",
-                        "Randomly",
-                        "By task size",
-                        "Alphabetically"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    id: 10,
-                    category: "Scheduling & Task Priorities",
-                    question: "What is priority inheritance?",
-                    answers: [
-                        "Temporarily raising low-priority task priority to avoid inversion",
-                        "Permanently changing task priorities",
-                        "Scheduler ignoring priorities",
-                        "No relation to scheduling"
-                    ],
-                    correctAnswer: 0
-                },
-                // 11-15: Mutual Exclusion & Synchronization
-                {
-                    id: 11,
-                    category: "Mutual Exclusion & Synchronization",
-                    question: "What is mutual exclusion in RTOS?",
-                    answers: [
-                        "Ensuring only one task accesses shared resource at a time",
-                        "Sharing memory",
-                        "Interrupting tasks",
-                        "Parallel execution"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    id: 12,
-                    category: "Mutual Exclusion & Synchronization",
-                    question: "What are semaphores used for?",
-                    answers: [
-                        "Managing mutual exclusion and signaling",
-                        "Power control",
-                        "Memory allocation",
-                        "Context switching"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    id: 13,
-                    category: "Mutual Exclusion & Synchronization",
-                    question: "Define deadlock in multitasking systems.",
-                    answers: [
-                        "Tasks waiting indefinitely for resources",
-                        "Tasks finishing instantly",
-                        "Scheduler error",
-                        "Timer overflow"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    id: 14,
-                    category: "Mutual Exclusion & Synchronization",
-                    question: "What is an event flag in RTOS?",
-                    answers: [
-                        "Synchronization primitive used for signaling between tasks",
-                        "Flag for memory errors",
-                        "Interrupt handler",
-                        "Clock tick"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    id: 15,
-                    category: "Mutual Exclusion & Synchronization",
-                    question: "Which technique ensures tasks execute in order and do not collide?",
-                    answers: [
-                        "Synchronization",
-                        "Interrupts",
-                        "Deadlock",
-                        "Clock tick"
-                    ],
-                    correctAnswer: 0
-                },
-                // 16-20: Inter-Task Communication & Timing
-                {
-                    id: 16,
-                    category: "Inter-Task Communication & Timing",
-                    question: "What are message mailboxes used for?",
-                    answers: [
-                        "Sending messages between tasks",
-                        "Storing files",
-                        "Executing interrupts",
-                        "Scheduling tasks"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    id: 17,
-                    category: "Inter-Task Communication & Timing",
-                    question: "Difference between message queues and mailboxes:",
-                    answers: [
-                        "Queues can hold multiple messages; mailbox holds only one",
-                        "Both same",
-                        "Mailbox is faster",
-                        "Queues cannot be read"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    id: 18,
-                    category: "Inter-Task Communication & Timing",
-                    question: "What role do interrupts play in RTOS?",
-                    answers: [
-                        "Allow tasks to respond immediately to external events",
-                        "Increase memory",
-                        "Stop the CPU permanently",
-                        "Replace scheduler"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    id: 19,
-                    category: "Inter-Task Communication & Timing",
-                    question: "What is a clock tick in RTOS?",
-                    answers: [
-                        "Periodic timer interrupt used for task scheduling",
-                        "Stopwatch for tasks",
-                        "Power-on delay",
-                        "Only for memory tracking"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    id: 20,
-                    category: "Inter-Task Communication & Timing",
-                    question: "Why is memory requirement analysis important in RTOS?",
-                    answers: [
-                        "To ensure sufficient space for tasks, stacks, and buffers",
-                        "To reduce CPU speed",
-                        "To avoid interrupts",
-                        "Optional for scheduling"
-                    ],
-                    correctAnswer: 0
-                }
-            ]
-        };
+       // Quiz Data - RTOS Questions (Answers shuffled)
+const quizData = {
+    code: 'RTOS20',
+    questions: [
+        // 1-5: Foreground/Background Systems & Context Switching
+        {
+            id: 1,
+            category: "Foreground/Background Systems",
+            question: "What is a foreground/background system in RTOS?",
+            answers: [
+                "Only background can access memory",
+                "Foreground runs tasks continuously, background handles interrupts",
+                "Both run simultaneously without priorities",
+                "Foreground is slow, background is fast"
+            ],
+            correctAnswer: 1
+        },
+        {
+            id: 2,
+            category: "Foreground/Background Systems",
+            question: "What is context switching in RTOS?",
+            answers: [
+                "Updating firmware",
+                "Switching CPU from one task to another",
+                "Changing memory type",
+                "Switching power supply"
+            ],
+            correctAnswer: 1
+        },
+        {
+            id: 3,
+            category: "Foreground/Background Systems",
+            question: "Difference between non-preemptive and preemptive kernels:",
+            answers: [
+                "Non-preemptive uses multiple CPUs",
+                "Preemptive never interrupts",
+                "Both are identical",
+                "Non-preemptive: task runs until completion; Preemptive: scheduler can interrupt"
+            ],
+            correctAnswer: 3
+        },
+        {
+            id: 4,
+            category: "Foreground/Background Systems",
+            question: "Why is context switching important?",
+            answers: [
+                "To increase task length",
+                "To save memory",
+                "To allow multitasking and efficient CPU utilization",
+                "To reduce interrupts"
+            ],
+            correctAnswer: 2
+        },
+        {
+            id: 5,
+            category: "Foreground/Background Systems",
+            question: "Which kernel type allows higher priority tasks to run immediately?",
+            answers: [
+                "None",
+                "Non-preemptive",
+                "Preemptive",
+                "Both"
+            ],
+            correctAnswer: 2
+        },
+        // 6-10: Scheduling & Task Priorities
+        {
+            id: 6,
+            category: "Scheduling & Task Priorities",
+            question: "What is a scheduler in RTOS?",
+            answers: [
+                "Determines the order in which tasks run",
+                "Increases memory",
+                "Handles only interrupts",
+                "Manages power supply"
+            ],
+            correctAnswer: 0
+        },
+        {
+            id: 7,
+            category: "Scheduling & Task Priorities",
+            question: "What is scheduling re-entrancy?",
+            answers: [
+                "Scheduler never runs twice",
+                "Scheduler can be called again safely during execution",
+                "None of the above",
+                "Scheduler uses interrupts"
+            ],
+            correctAnswer: 1
+        },
+        {
+            id: 8,
+            category: "Scheduling & Task Priorities",
+            question: "Define priority inversion.",
+            answers: [
+                "Scheduler stops",
+                "Lower priority task blocks higher priority task",
+                "Tasks execute randomly",
+                "High priority tasks always preempt"
+            ],
+            correctAnswer: 1
+        },
+        {
+            id: 9,
+            category: "Scheduling & Task Priorities",
+            question: "How do you assign task priorities?",
+            answers: [
+                "Alphabetically",
+                "Randomly",
+                "By task size",
+                "Based on importance and deadlines"
+            ],
+            correctAnswer: 3
+        },
+        {
+            id: 10,
+            category: "Scheduling & Task Priorities",
+            question: "What is priority inheritance?",
+            answers: [
+                "Temporarily raising low-priority task priority to avoid inversion",
+                "No relation to scheduling",
+                "Scheduler ignoring priorities",
+                "Permanently changing task priorities"
+            ],
+            correctAnswer: 0
+        },
+        // 11-15: Mutual Exclusion & Synchronization
+        {
+            id: 11,
+            category: "Mutual Exclusion & Synchronization",
+            question: "What is mutual exclusion in RTOS?",
+            answers: [
+                "Ensuring only one task accesses shared resource at a time",
+                "Interrupting tasks",
+                "Parallel execution",
+                "Sharing memory"
+            ],
+            correctAnswer: 0
+        },
+        {
+            id: 12,
+            category: "Mutual Exclusion & Synchronization",
+            question: "What are semaphores used for?",
+            answers: [
+                "Power control",
+                "Managing mutual exclusion and signaling",
+                "Context switching",
+                "Memory allocation"
+            ],
+            correctAnswer: 1
+        },
+        {
+            id: 13,
+            category: "Mutual Exclusion & Synchronization",
+            question: "Define deadlock in multitasking systems.",
+            answers: [
+                "Scheduler error",
+                "Timer overflow",
+                "Tasks waiting indefinitely for resources",
+                "Tasks finishing instantly"
+            ],
+            correctAnswer: 2
+        },
+        {
+            id: 14,
+            category: "Mutual Exclusion & Synchronization",
+            question: "What is an event flag in RTOS?",
+            answers: [
+                "Flag for memory errors",
+                "Synchronization primitive used for signaling between tasks",
+                "Interrupt handler",
+                "Clock tick"
+            ],
+            correctAnswer: 1
+        },
+        {
+            id: 15,
+            category: "Mutual Exclusion & Synchronization",
+            question: "Which technique ensures tasks execute in order and do not collide?",
+            answers: [
+                "Synchronization",
+                "Deadlock",
+                "Interrupts",
+                "Clock tick"
+            ],
+            correctAnswer: 0
+        },
+        // 16-20: Inter-Task Communication & Timing
+        {
+            id: 16,
+            category: "Inter-Task Communication & Timing",
+            question: "What are message mailboxes used for?",
+            answers: [
+                "Executing interrupts",
+                "Sending messages between tasks",
+                "Scheduling tasks",
+                "Storing files"
+            ],
+            correctAnswer: 1
+        },
+        {
+            id: 17,
+            category: "Inter-Task Communication & Timing",
+            question: "Difference between message queues and mailboxes:",
+            answers: [
+                "Mailbox is faster",
+                "Queues can hold multiple messages; mailbox holds only one",
+                "Both same",
+                "Queues cannot be read"
+            ],
+            correctAnswer: 1
+        },
+        {
+            id: 18,
+            category: "Inter-Task Communication & Timing",
+            question: "What role do interrupts play in RTOS?",
+            answers: [
+                "Allow tasks to respond immediately to external events",
+                "Stop the CPU permanently",
+                "Increase memory",
+                "Replace scheduler"
+            ],
+            correctAnswer: 0
+        },
+        {
+            id: 19,
+            category: "Inter-Task Communication & Timing",
+            question: "What is a clock tick in RTOS?",
+            answers: [
+                "Periodic timer interrupt used for task scheduling",
+                "Stopwatch for tasks",
+                "Only for memory tracking",
+                "Power-on delay"
+            ],
+            correctAnswer: 0
+        },
+        {
+            id: 20,
+            category: "Inter-Task Communication & Timing",
+            question: "Why is memory requirement analysis important in RTOS?",
+            answers: [
+                "To ensure sufficient space for tasks, stacks, and buffers",
+                "Optional for scheduling",
+                "To reduce CPU speed",
+                "To avoid interrupts"
+            ],
+            correctAnswer: 0
+        }
+    ]
+};
+
 
         // Admin Authentication
         const ADMIN_PASSWORD = 'ABISHEK';
@@ -873,7 +874,8 @@ const firebaseConfig = {
             currentQuestionData: null,
             questionStats: {},
             timer: null,
-            timeLeft: 30
+            timeLeft: 30,
+            shuffledQuestions: [] // Store shuffled questions
         };
 
         // Player State
@@ -1348,6 +1350,12 @@ const firebaseConfig = {
                     return;
                 }
                 
+                // Shuffle all questions at the start of the quiz
+                gameState.shuffledQuestions = shuffleAllQuestions();
+                
+                // Store shuffled questions in Firebase
+                database.ref('shuffledQuestions').set(gameState.shuffledQuestions);
+                
                 // Update game state
                 const newGameState = {
                     isQuizActive: true,
@@ -1369,7 +1377,7 @@ const firebaseConfig = {
                 // Start first question
                 startQuestion(0);
                 
-                showNotification('Quiz started!', 'success');
+                showNotification('Quiz started with shuffled questions!', 'success');
             });
         }
 
@@ -1404,6 +1412,7 @@ const firebaseConfig = {
             // Clear game state
             database.ref('gameState').remove();
             database.ref('currentQuestion').remove();
+            database.ref('shuffledQuestions').remove();
             
             // Remove all players
             database.ref('players').remove();
@@ -1424,6 +1433,8 @@ const firebaseConfig = {
                 hasJoined: false
             };
             
+            gameState.shuffledQuestions = [];
+            
             // Update UI
             document.getElementById('quizStatusAdmin').textContent = 'Waiting';
             document.getElementById('quizStatus').textContent = 'Waiting';
@@ -1442,53 +1453,54 @@ const firebaseConfig = {
             showNotification('Quiz reset', 'info');
         }
 
+        // Function to shuffle all questions
+        function shuffleAllQuestions() {
+            const shuffled = quizData.questions.map(question => {
+                // Create a copy of the question to avoid modifying the original
+                const shuffledQuestion = { ...question };
+                
+                // Create an array of answer indices
+                const indices = [0, 1, 2, 3];
+                
+                // Shuffle the indices using Fisher-Yates algorithm
+                for (let i = indices.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [indices[i], indices[j]] = [indices[j], indices[i]];
+                }
+                
+                // Create a new answers array based on the shuffled indices
+                const shuffledAnswers = indices.map(i => question.answers[i]);
+                
+                // Find the new position of the correct answer
+                const newCorrectAnswer = indices.indexOf(question.correctAnswer);
+                
+                // Update the question with shuffled answers and new correct answer position
+                shuffledQuestion.answers = shuffledAnswers;
+                shuffledQuestion.correctAnswer = newCorrectAnswer;
+                
+                return shuffledQuestion;
+            });
+            
+            return shuffled;
+        }
+
         function startQuestion(questionIndex) {
-            if (questionIndex >= quizData.questions.length) {
+            if (questionIndex >= gameState.shuffledQuestions.length) {
                 endQuiz();
                 return;
             }
             
-            const question = quizData.questions[questionIndex];
-            
-            // Shuffle answers and track the correct answer position
-            const shuffledQuestion = shuffleAnswers(question);
+            const question = gameState.shuffledQuestions[questionIndex];
             
             // Update current question in Firebase
             database.ref('currentQuestion').set({
                 questionIndex: questionIndex,
-                question: shuffledQuestion,
+                question: question,
                 startTime: new Date().toISOString()
             });
             
             // Start timer
             startTimer();
-        }
-
-        // Function to shuffle answer options
-        function shuffleAnswers(question) {
-            // Create a copy of the question to avoid modifying the original
-            const shuffledQuestion = { ...question };
-            
-            // Create an array of answer indices
-            const indices = [0, 1, 2, 3];
-            
-            // Shuffle the indices using Fisher-Yates algorithm
-            for (let i = indices.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [indices[i], indices[j]] = [indices[j], indices[i]];
-            }
-            
-            // Create a new answers array based on the shuffled indices
-            const shuffledAnswers = indices.map(i => question.answers[i]);
-            
-            // Find the new position of the correct answer
-            const newCorrectAnswer = indices.indexOf(question.correctAnswer);
-            
-            // Update the question with shuffled answers and new correct answer position
-            shuffledQuestion.answers = shuffledAnswers;
-            shuffledQuestion.correctAnswer = newCorrectAnswer;
-            
-            return shuffledQuestion;
         }
 
         function loadQuestion() {
@@ -1500,8 +1512,8 @@ const firebaseConfig = {
             document.getElementById('questionText').textContent = question.question;
             document.getElementById('questionCategory').textContent = question.category;
             document.getElementById('currentQuestion').textContent = gameState.currentQuestionData.questionIndex + 1;
-            document.getElementById('totalQuestions').textContent = quizData.questions.length;
-            document.getElementById('progressBar').style.width = `${((gameState.currentQuestionData.questionIndex + 1) / quizData.questions.length) * 100}%`;
+            document.getElementById('totalQuestions').textContent = gameState.shuffledQuestions.length || quizData.questions.length;
+            document.getElementById('progressBar').style.width = `${((gameState.currentQuestionData.questionIndex + 1) / (gameState.shuffledQuestions.length || quizData.questions.length)) * 100}%`;
             
             // Load answers
             const answersContainer = document.getElementById('answersContainer');
@@ -1640,10 +1652,10 @@ const firebaseConfig = {
             resultsScreen.classList.remove('hidden');
             
             document.getElementById('finalScore').textContent = playerState.score;
-            document.getElementById('maxScore').textContent = quizData.questions.length * 5;
+            document.getElementById('maxScore').textContent = (gameState.shuffledQuestions.length || quizData.questions.length) * 5;
             
             // Performance message
-            const percentage = (playerState.score / (quizData.questions.length * 5)) * 100;
+            const percentage = (playerState.score / ((gameState.shuffledQuestions.length || quizData.questions.length) * 5)) * 100;
             let message = '';
             if (percentage >= 80) {
                 message = 'Excellent work! You\'re an RTOS expert!';
@@ -1746,7 +1758,7 @@ const firebaseConfig = {
                             </div>
                             <div class="flex items-center justify-between mt-1">
                                 <span class="text-sm text-gray-600">Progress:</span>
-                                <span class="text-sm font-medium">${player.currentQuestion}/${quizData.questions.length}</span>
+                                <span class="text-sm font-medium">${player.currentQuestion}/${gameState.shuffledQuestions.length || quizData.questions.length}</span>
                             </div>
                             <div class="mt-2 text-xs text-gray-500">
                                 <i class="fas fa-clock mr-1"></i>
@@ -1792,7 +1804,7 @@ const firebaseConfig = {
                     rankIcon = `${index + 1}`;
                 }
                 
-                const progressPercent = (player.currentQuestion / quizData.questions.length) * 100;
+                const progressPercent = (player.currentQuestion / (gameState.shuffledQuestions.length || quizData.questions.length)) * 100;
                 
                 row.innerHTML = `
                     <td class="px-4 py-2">${rankIcon}</td>
