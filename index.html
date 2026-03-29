@@ -615,257 +615,253 @@
 
         // Quiz Data - RTOS Questions (Answers shuffled)
         const quizData = {
-            code: 'RTOS20',
-            questions: [
-                // 1-5: Foreground/Background Systems & Context Switching
-                {
-                    id: 1,
-                    category: "Foreground/Background Systems",
-                    question: "What is a foreground/background system in RTOS?",
-                    answers: [
-                        "Only background can access memory",
-                        "Foreground runs tasks continuously, background handles interrupts",
-                        "Both run simultaneously without priorities",
-                        "Foreground is slow, background is fast"
-                    ],
-                    correctAnswer: 1
-                },
-                {
-                    id: 2,
-                    category: "Foreground/Background Systems",
-                    question: "What is context switching in RTOS?",
-                    answers: [
-                        "Updating firmware",
-                        "Switching CPU from one task to another",
-                        "Changing memory type",
-                        "Switching power supply"
-                    ],
-                    correctAnswer: 1
-                },
-                {
-                    id: 3,
-                    category: "Foreground/Background Systems",
-                    question: "Difference between non-preemptive and preemptive kernels:",
-                    answers: [
-                        "Non-preemptive uses multiple CPUs",
-                        "Preemptive never interrupts",
-                        "Both are identical",
-                        "Non-preemptive: task runs until completion; Preemptive: scheduler can interrupt"
-                    ],
-                    correctAnswer: 3
-                },
-                {
-                    id: 4,
-                    category: "Foreground/Background Systems",
-                    question: "Why is context switching important?",
-                    answers: [
-                        "To increase task length",
-                        "To save memory",
-                        "To allow multitasking and efficient CPU utilization",
-                        "To reduce interrupts"
-                    ],
-                    correctAnswer: 2
-                },
-                {
-                    id: 5,
-                    category: "Foreground/Background Systems",
-                    question: "Which kernel type allows higher priority tasks to run immediately?",
-                    answers: [
-                        "None",
-                        "Non-preemptive",
-                        "Preemptive",
-                        "Both"
-                    ],
-                    correctAnswer: 2
-                },
-                // 6-10: Scheduling & Task Priorities
-                {
-                    id: 6,
-                    category: "Scheduling & Task Priorities",
-                    question: "What is a scheduler in RTOS?",
-                    answers: [
-                        "Determines the order in which tasks run",
-                        "Increases memory",
-                        "Handles only interrupts",
-                        "Manages power supply"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    id: 7,
-                    category: "Scheduling & Task Priorities",
-                    question: "What is scheduling re-entrancy?",
-                    answers: [
-                        "Scheduler never runs twice",
-                        "Scheduler can be called again safely during execution",
-                        "None of the above",
-                        "Scheduler uses interrupts"
-                    ],
-                    correctAnswer: 1
-                },
-                {
-                    id: 8,
-                    category: "Scheduling & Task Priorities",
-                    question: "Define priority inversion.",
-                    answers: [
-                        "Scheduler stops",
-                        "Lower priority task blocks higher priority task",
-                        "Tasks execute randomly",
-                        "High priority tasks always preempt"
-                    ],
-                    correctAnswer: 1
-                },
-                {
-                    id: 9,
-                    category: "Scheduling & Task Priorities",
-                    question: "How do you assign task priorities?",
-                    answers: [
-                        "Alphabetically",
-                        "Randomly",
-                        "By task size",
-                        "Based on importance and deadlines"
-                    ],
-                    correctAnswer: 3
-                },
-                {
-                    id: 10,
-                    category: "Scheduling & Task Priorities",
-                    question: "What is priority inheritance?",
-                    answers: [
-                        "Temporarily raising low-priority task priority to avoid inversion",
-                        "No relation to scheduling",
-                        "Scheduler ignoring priorities",
-                        "Permanently changing task priorities"
-                    ],
-                    correctAnswer: 0
-                },
-                // 11-15: Mutual Exclusion & Synchronization
-                {
-                    id: 11,
-                    category: "Mutual Exclusion & Synchronization",
-                    question: "What is mutual exclusion in RTOS?",
-                    answers: [
-                        "Ensuring only one task accesses shared resource at a time",
-                        "Interrupting tasks",
-                        "Parallel execution",
-                        "Sharing memory"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    id: 12,
-                    category: "Mutual Exclusion & Synchronization",
-                    question: "What are semaphores used for?",
-                    answers: [
-                        "Power control",
-                        "Managing mutual exclusion and signaling",
-                        "Context switching",
-                        "Memory allocation"
-                    ],
-                    correctAnswer: 1
-                },
-                {
-                    id: 13,
-                    category: "Mutual Exclusion & Synchronization",
-                    question: "Define deadlock in multitasking systems.",
-                    answers: [
-                        "Scheduler error",
-                        "Timer overflow",
-                        "Tasks waiting indefinitely for resources",
-                        "Tasks finishing instantly"
-                    ],
-                    correctAnswer: 2
-                },
-                {
-                    id: 14,
-                    category: "Mutual Exclusion & Synchronization",
-                    question: "What is an event flag in RTOS?",
-                    answers: [
-                        "Flag for memory errors",
-                        "Synchronization primitive used for signaling between tasks",
-                        "Interrupt handler",
-                        "Clock tick"
-                    ],
-                    correctAnswer: 1
-                },
-                {
-                    id: 15,
-                    category: "Mutual Exclusion & Synchronization",
-                    question: "Which technique ensures tasks execute in order and do not collide?",
-                    answers: [
-                        "Synchronization",
-                        "Deadlock",
-                        "Interrupts",
-                        "Clock tick"
-                    ],
-                    correctAnswer: 0
-                },
-                // 16-20: Inter-Task Communication & Timing
-                {
-                    id: 16,
-                    category: "Inter-Task Communication & Timing",
-                    question: "What are message mailboxes used for?",
-                    answers: [
-                        "Executing interrupts",
-                        "Sending messages between tasks",
-                        "Scheduling tasks",
-                        "Storing files"
-                    ],
-                    correctAnswer: 1
-                },
-                {
-                    id: 17,
-                    category: "Inter-Task Communication & Timing",
-                    question: "Difference between message queues and mailboxes:",
-                    answers: [
-                        "Mailbox is faster",
-                        "Queues can hold multiple messages; mailbox holds only one",
-                        "Both same",
-                        "Queues cannot be read"
-                    ],
-                    correctAnswer: 1
-                },
-                {
-                    id: 18,
-                    category: "Inter-Task Communication & Timing",
-                    question: "What role do interrupts play in RTOS?",
-                    answers: [
-                        "Allow tasks to respond immediately to external events",
-                        "Stop the CPU permanently",
-                        "Increase memory",
-                        "Replace scheduler"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    id: 19,
-                    category: "Inter-Task Communication & Timing",
-                    question: "What is a clock tick in RTOS?",
-                    answers: [
-                        "Periodic timer interrupt used for task scheduling",
-                        "Stopwatch for tasks",
-                        "Only for memory tracking",
-                        "Power-on delay"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    id: 20,
-                    category: "Inter-Task Communication & Timing",
-                    question: "Why is memory requirement analysis important in RTOS?",
-                    answers: [
-                        "To ensure sufficient space for tasks, stacks, and buffers",
-                        "Optional for scheduling",
-                        "To reduce CPU speed",
-                        "To avoid interrupts"
-                    ],
-                    correctAnswer: 0
-                }
-            ]
-        };
+    code: 'PP20',
+    questions: [
+        {
+            id: 1,
+            category: "Basics",
+            question: "What is parallel processing in real-time systems?",
+            answers: [
+                "Executing multiple tasks simultaneously",
+                "Running only one task",
+                "Stopping processes",
+                "Increasing memory only"
+            ],
+            correctAnswer: 0
+        },
+        {
+            id: 2,
+            category: "Basics",
+            question: "Which hardware enables parallel processing?",
+            answers: [
+                "Single core CPU",
+                "Multi-core processor",
+                "RAM",
+                "Hard disk"
+            ],
+            correctAnswer: 1
+        },
+        {
+            id: 3,
+            category: "Concept",
+            question: "Difference between concurrency and parallelism?",
+            answers: [
+                "Both same",
+                "Concurrency = one at a time",
+                "Parallelism = simultaneous execution",
+                "No execution"
+            ],
+            correctAnswer: 2
+        },
+        {
+            id: 4,
+            category: "Real-Time Systems",
+            question: "What is a hard real-time system?",
+            answers: [
+                "Deadline must not be missed",
+                "Flexible timing",
+                "Slow processing",
+                "No scheduling"
+            ],
+            correctAnswer: 0
+        },
+        {
+            id: 5,
+            category: "Real-Time Systems",
+            question: "Soft real-time systems allow:",
+            answers: [
+                "Strict deadlines",
+                "No delay",
+                "Some delay acceptable",
+                "No execution"
+            ],
+            correctAnswer: 2
+        },
+        {
+            id: 6,
+            category: "Scheduling",
+            question: "What is task scheduling?",
+            answers: [
+                "Deleting tasks",
+                "Assigning execution order",
+                "Stopping CPU",
+                "Memory allocation"
+            ],
+            correctAnswer: 1
+        },
+        {
+            id: 7,
+            category: "Architecture",
+            question: "Shared memory system means:",
+            answers: [
+                "Each processor has its own memory",
+                "Processors share common memory",
+                "No memory used",
+                "External memory only"
+            ],
+            correctAnswer: 1
+        },
+        {
+            id: 8,
+            category: "Architecture",
+            question: "Distributed memory system means:",
+            answers: [
+                "Shared RAM",
+                "Independent memory for each processor",
+                "No processors",
+                "Single memory"
+            ],
+            correctAnswer: 1
+        },
+        {
+            id: 9,
+            category: "Concept",
+            question: "What is load balancing?",
+            answers: [
+                "Unequal task distribution",
+                "Equal distribution of tasks",
+                "Deleting tasks",
+                "Increasing memory"
+            ],
+            correctAnswer: 1
+        },
+        {
+            id: 10,
+            category: "Performance",
+            question: "Latency refers to:",
+            answers: [
+                "Execution delay",
+                "Memory size",
+                "CPU speed",
+                "Task count"
+            ],
+            correctAnswer: 0
+        },
+        {
+            id: 11,
+            category: "Performance",
+            question: "Throughput means:",
+            answers: [
+                "Delay",
+                "Number of tasks completed",
+                "Memory size",
+                "Interrupt count"
+            ],
+            correctAnswer: 1
+        },
+        {
+            id: 12,
+            category: "Issues",
+            question: "Synchronization problem occurs due to:",
+            answers: [
+                "Single task",
+                "Shared resources",
+                "No CPU",
+                "No memory"
+            ],
+            correctAnswer: 1
+        },
+        {
+            id: 13,
+            category: "Issues",
+            question: "Race condition means:",
+            answers: [
+                "Tasks compete for resources",
+                "Tasks stop",
+                "CPU failure",
+                "Memory leak"
+            ],
+            correctAnswer: 0
+        },
+        {
+            id: 14,
+            category: "Advanced",
+            question: "Determinism in real-time systems means:",
+            answers: [
+                "Unpredictable output",
+                "Predictable timing behavior",
+                "Random execution",
+                "Slow system"
+            ],
+            correctAnswer: 1
+        },
+        {
+            id: 15,
+            category: "Hardware",
+            question: "GPU is mainly used for:",
+            answers: [
+                "Sequential processing",
+                "Parallel processing",
+                "Storage",
+                "Networking"
+            ],
+            correctAnswer: 1
+        },
+        {
+            id: 16,
+            category: "Comparison",
+            question: "CPU vs GPU parallelism:",
+            answers: [
+                "CPU better for massive parallel",
+                "GPU handles large parallel tasks",
+                "Both same",
+                "No difference"
+            ],
+            correctAnswer: 1
+        },
+        {
+            id: 17,
+            category: "RTOS",
+            question: "RTOS ensures:",
+            answers: [
+                "Fast graphics",
+                "Deterministic scheduling",
+                "Storage",
+                "Internet"
+            ],
+            correctAnswer: 1
+        },
+        {
+            id: 18,
+            category: "Applications",
+            question: "Parallel processing is used in:",
+            answers: [
+                "Autonomous vehicles",
+                "Games only",
+                "Typing apps",
+                "Calculators only"
+            ],
+            correctAnswer: 0
+        },
+        {
+            id: 19,
+            category: "Applications",
+            question: "Industrial automation uses parallel processing for:",
+            answers: [
+                "Monitoring multiple sensors",
+                "Single task",
+                "No processing",
+                "Printing"
+            ],
+            correctAnswer: 0
+        },
+        {
+            id: 20,
+            category: "Challenges",
+            question: "Main challenge in parallel real-time systems:",
+            answers: [
+                "Synchronization",
+                "No CPU",
+                "No memory",
+                "No tasks"
+            ],
+            correctAnswer: 0
+        }
+    ]
+};
 
         // Admin Authentication
-        const ADMIN_PASSWORD = 'ABISHEK';
+        const ADMIN_PASSWORD = 'KATHIR';
         let isAdminAuthenticated = false;
 
         // Game State (now synced with Firebase)
